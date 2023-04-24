@@ -10,7 +10,7 @@ This project contains a test written in JavaScript using the Mocha framework and
 
 ## Setup
 
-1. Clone the repository: https://github.com/SGnatienko?tab=repositories ссылку на
+1. Clone the repository: https://github.com/SGnatienko
 2. Install dependencies: npm install
 
 ## Usage
@@ -24,6 +24,8 @@ This project contains a test written in JavaScript using the Mocha framework and
 - [Node.js](https://nodejs.org/en/)
 - [Mocha](https://mochajs.org/)
 
-# Author
+## Author
 
 Gnatienko Stanislav
+
+## License

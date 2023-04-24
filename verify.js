@@ -1,3 +1,4 @@
+require('dotenv').config();
 const assert = require("assert");
 const { Builder, By, until } = require("selenium-webdriver");
 
@@ -18,7 +19,7 @@ describe("Rozetka", function () {
   it("should open Rozetka", async function () {
     const window = await driver.manage().window();
     await window.maximize();
-    await driver.get("https://rozetka.com.ua/");
+    await driver.get(process.env.URL);
     const title = await driver.getTitle();
     assert.strictEqual(title, 'Інтернет-магазин ROZETKA™: офіційний сайт найпопулярнішого онлайн-гіпермаркету в Україні');
 

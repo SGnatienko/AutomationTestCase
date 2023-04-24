@@ -1,6 +1,11 @@
 # Rozetka Marketplace Testing
 
-This project contains a test written in JavaScript using the Mocha framework and the Selenium WebDriver library. The test verifies the correctness of sorting products by price on the Rozetka website.
+This project contains a test written in JavaScript using the Mocha framework and the Selenium WebDriver library. 
+The test verifies:
+- The correctness of sorting products by price.
+- Adds items to the shopping cart to verify information of the items inside the basket.
+- Searches for a specific item  to verify that all items are correctly displayed according to your searching request.
+On the Rozetka website
 
 ## Requirements
 

@@ -1,0 +1,376 @@
+{
+  "stats": {
+    "suites": 4,
+    "tests": 4,
+    "passes": 3,
+    "pending": 0,
+    "failures": 1,
+    "start": "2023-04-26T16:16:40.788Z",
+    "end": "2023-04-26T16:17:51.495Z",
+    "duration": 70707,
+    "testsRegistered": 4,
+    "passPercent": 75,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "8c78ab5b-e586-4eef-8955-1ca86727d448",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "89394db4-f5bb-4757-9461-fa9583bdbbd3",
+          "title": "Rozetka",
+          "fullFile": "E:\\AutomationTestTask\\test\\AddItemBasket.js",
+          "file": "\\test\\AddItemBasket.js",
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"Rozetka\"",
+              "fullTitle": "Rozetka \"before each\" hook in \"Rozetka\"",
+              "timedOut": false,
+              "duration": 681,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await new Builder().forBrowser(\"chrome\").build()",
+              "err": {},
+              "uuid": "2653b002-0b71-4c99-97a2-0a58100b5e27",
+              "parentUUID": "89394db4-f5bb-4757-9461-fa9583bdbbd3",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"Rozetka\"",
+              "fullTitle": "Rozetka \"after each\" hook in \"Rozetka\"",
+              "timedOut": false,
+              "duration": 92,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit()",
+              "err": {},
+              "uuid": "f7f91ef2-5222-41b0-bbca-dcffd1ec31ec",
+              "parentUUID": "89394db4-f5bb-4757-9461-fa9583bdbbd3",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "should open Rozetka",
+              "fullTitle": "Rozetka should open Rozetka",
+              "timedOut": false,
+              "duration": 24771,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const window = await driver.manage().window()\nawait window.maximize()\nawait driver.get(process.env.URL)\nconst title = await driver.getTitle()\nassert.strictEqual(\n    title,\n    \"Інтернет-магазин ROZETKA™: офіційний сайт найпопулярнішого онлайн-гіпермаркету в Україні\"\n)\n// Open category and subcategory.\nawait driver.wait(\n    until.elementsLocated(By.linkText(\"Ноутбуки та комп’ютери\"))\n)\nawait driver.findElement(By.linkText(\"Ноутбуки та комп’ютери\")).click()\nawait driver.wait(until.elementsLocated(By.linkText(\"Ноутбуки\")))\nawait driver.findElement(By.linkText(\"Ноутбуки\")).click()\n// Add any item to the basket.\nawait driver.wait(until.elementsLocated(By.css(\".goods-tile__buy-button\")))\nawait driver.sleep(1000)\nawait driver.findElement(By.css(\".goods-tile__buy-button\")).click()\n// Select another category and add an item from that category.\nawait driver.get(process.env.URL)\nawait driver.wait(until.elementsLocated(By.linkText(\"Зоотовари\")))\nawait driver.findElement(By.linkText(\"Зоотовари\")).click()\nawait driver.wait(until.elementsLocated(By.linkText(\"Корм\")))\nawait driver.findElement(By.linkText(\"Корм\")).click()\nawait driver.wait(until.elementsLocated(By.css(\".goods-tile__buy-button\")))\nawait driver.sleep(1000)\nawait driver.findElement(By.css(\".goods-tile__buy-button\")).click()\n// Verify information of items inside the basket that the price is calculated correctly and that the delete item button is clickable.\nawait driver.wait(\n    until.elementsLocated(By.css(\".badge--green[_ngcontent-rz-client-c19]\"))\n)\nawait driver.sleep(1000)\nconst count = await driver\n    .findElement(By.css(\".badge--green[_ngcontent-rz-client-c19]\"))\n    .getText()\nassert.strictEqual(count, \"2\")\nawait driver.wait(\n    until.elementsLocated(By.css(\".header__button[_ngcontent-rz-client-c21]\"))\n)\nawait driver.sleep(1000)\nawait driver\n    .findElement(By.css(\".header__button[_ngcontent-rz-client-c21]\"))\n    .click()\nawait driver.wait(\n    until.elementsLocated(\n        By.css(\".cart-product__price[_ngcontent-rz-client-c128]\")\n    )\n)\nawait driver.sleep(1000)\nconst prices = await driver.findElements(\n    By.css(\".cart-product__price[_ngcontent-rz-client-c128]\")\n)\nconst priceValues = await Promise.all(\n    prices.map(async (price) => {\n        return parseInt(String(await price.getText()).replace(/\\D+/g, \"\"))\n    })\n)\nconst totalPrice = await driver.findElement(\n    By.css(\"    .cart-receipt__sum-price        \")\n)\nconst totalPriceValue = parseInt(\n    String(await totalPrice.getText()).replace(/\\D+/g, \"\")\n)\nconst calculatedTotalPrice = priceValues.reduce(\n    (accumulator, currentValue) => accumulator + currentValue\n)\nconsole.log(\"priceValues - \", priceValues)\nconsole.log(\"totalPriceValue - \", totalPriceValue)\nconsole.log(\"calculatedTotalPrice - \", calculatedTotalPrice)\nassert.deepEqual(totalPriceValue, calculatedTotalPrice)\nawait driver.findElement(By.id(\"cartProductActions0\")).click()\nawait driver.sleep(1000)\nawait driver\n    .findElement(By.css(\".popup-menu__item:nth-child(1) .button\"))\n    .click()\nawait driver.wait(\n    until.elementsLocated(By.css(\".badge--green[_ngcontent-rz-client-c19]\"))\n)\nawait driver.sleep(1000)\nconst countAfterDelete = await driver\n    .findElement(By.css(\".badge--green[_ngcontent-rz-client-c19]\"))\n    .getText()\nassert.strictEqual(countAfterDelete, \"1\")\nawait driver.sleep(5000)",
+              "err": {},
+              "uuid": "b9b22b5d-9a95-4a3a-a2f0-19cac79fde7d",
+              "parentUUID": "89394db4-f5bb-4757-9461-fa9583bdbbd3",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b9b22b5d-9a95-4a3a-a2f0-19cac79fde7d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 24771,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        },
+        {
+          "uuid": "66a4e21e-0813-46e4-9d0a-03264437d658",
+          "title": "Rozetka",
+          "fullFile": "E:\\AutomationTestTask\\test\\CorrectProductBasket.js",
+          "file": "\\test\\CorrectProductBasket.js",
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"Rozetka\"",
+              "fullTitle": "Rozetka \"before each\" hook in \"Rozetka\"",
+              "timedOut": false,
+              "duration": 662,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await new Builder().forBrowser(\"chrome\").build()",
+              "err": {},
+              "uuid": "149b897c-8a00-4a1a-864f-8bc84d6febcf",
+              "parentUUID": "66a4e21e-0813-46e4-9d0a-03264437d658",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"Rozetka\"",
+              "fullTitle": "Rozetka \"after each\" hook in \"Rozetka\"",
+              "timedOut": false,
+              "duration": 67,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit()",
+              "err": {},
+              "uuid": "da0bfc47-47e6-4c1a-8171-560f9535dc20",
+              "parentUUID": "66a4e21e-0813-46e4-9d0a-03264437d658",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "1",
+              "fullTitle": "Rozetka 1",
+              "timedOut": false,
+              "duration": 8663,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "await driver.get(process.env.URL)\nawait driver.wait(\n  until.elementsLocated(By.linkText(\"Ноутбуки та комп’ютери\"))\n)\nawait driver.findElement(By.linkText(\"Ноутбуки та комп’ютери\")).click()\nawait driver.wait(until.elementsLocated(By.linkText(\"Ноутбуки\")))\nawait driver.findElement(By.linkText(\"Ноутбуки\")).click()\n// Check the correctness adding product to the basket.\nawait driver.wait(until.elementsLocated(By.css(\".goods-tile__buy-button\")))\nawait driver.sleep(1000)\nawait driver.findElement(By.css(\".goods-tile__buy-button\")).click()\nawait driver.wait(\n  until.elementsLocated(By.css(\".header__button[_ngcontent-rz-client-c21]\"))\n)\nawait driver.sleep(1000)\nawait driver\n  .findElement(By.css(\".header__button[_ngcontent-rz-client-c21]\"))\n  .click()\nawait driver.sleep(1000)\nawait driver\n  .findElement(By.css(\".cart-list__item:nth-child(1) .button:nth-child(3)\"))\n  .click()\nawait driver.wait(\n  until.elementsLocated(By.css(\".badge--green[_ngcontent-rz-client-c19]\"))\n)\nawait driver.sleep(1000)\nconst count = await driver\n  .findElement(By.css(\".badge--green[_ngcontent-rz-client-c19]\"))\n  .getText()\nassert.strictEqual(count, \"1\")\nawait driver.sleep(5000)",
+              "err": {
+                "message": "AssertionError: Expected values to be strictly equal:\n\n'2' !== '1'\n",
+                "estack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'2' !== '1'\n\n    at Context.<anonymous> (test\\CorrectProductBasket.js:57:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)",
+                "diff": "- 2\n+ 1\n"
+              },
+              "uuid": "b6ebc4c5-beb5-40b5-8902-e6a922edc3a9",
+              "parentUUID": "66a4e21e-0813-46e4-9d0a-03264437d658",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "b6ebc4c5-beb5-40b5-8902-e6a922edc3a9"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 8663,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        },
+        {
+          "uuid": "c24e5175-04c7-466d-ba1e-f96430d75d1a",
+          "title": "Rozetka",
+          "fullFile": "E:\\AutomationTestTask\\test\\SearchTheItem.js",
+          "file": "\\test\\SearchTheItem.js",
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"Rozetka\"",
+              "fullTitle": "Rozetka \"before each\" hook in \"Rozetka\"",
+              "timedOut": false,
+              "duration": 816,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await new Builder().forBrowser(\"chrome\").build()",
+              "err": {},
+              "uuid": "53a90a5a-38c5-431e-b9a8-b9ff8c7598dc",
+              "parentUUID": "c24e5175-04c7-466d-ba1e-f96430d75d1a",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"Rozetka\"",
+              "fullTitle": "Rozetka \"after each\" hook in \"Rozetka\"",
+              "timedOut": false,
+              "duration": 49,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit()",
+              "err": {},
+              "uuid": "c48293a7-7208-42c0-93e8-2d10c02bf479",
+              "parentUUID": "c24e5175-04c7-466d-ba1e-f96430d75d1a",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "should open Rozetka",
+              "fullTitle": "Rozetka should open Rozetka",
+              "timedOut": false,
+              "duration": 13301,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const window = await driver.manage().window()\nawait window.maximize()\nawait driver.get(process.env.URL)\nconst title = await driver.getTitle()\nassert.strictEqual(\n  title,\n  \"Інтернет-магазин ROZETKA™: офіційний сайт найпопулярнішого онлайн-гіпермаркету в Україні\"\n)\n// Search random item by name\nawait driver.findElement(By.name(\"search\")).sendKeys(\"ноутбук\")\nawait driver.findElement(By.css(\".button_color_green\")).click()\n// Verify that all items are correctly displayed according to your searching request (only on the first page).\nawait driver.wait(until.elementsLocated(By.css(\".goods-tile__title\")))\nawait driver.sleep(1000)\nconst itemNames = await driver.findElements(By.css(\".goods-tile__title\"))\nconst itemNamesText = await Promise.all(\n  itemNames.map(async (name) => {\n    return await name.getText()\n  })\n)\nconsole.log(\"itemNamesText\", itemNamesText)\nitemNamesText.forEach((name) => {\n  assert.ok(name.toLowerCase().includes(\"ноутбук\"))\n})\nconsole.log(`Found ${itemNamesText.length} items`);\nawait driver.sleep(5000)",
+              "err": {},
+              "uuid": "f014864e-f957-4d08-a26a-5169dfd82554",
+              "parentUUID": "c24e5175-04c7-466d-ba1e-f96430d75d1a",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f014864e-f957-4d08-a26a-5169dfd82554"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 13301,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        },
+        {
+          "uuid": "1377a894-a4ce-4e04-a256-6fe3b1ef6cf1",
+          "title": "Rozetka",
+          "fullFile": "E:\\AutomationTestTask\\test\\VerifyPriceFilter.js",
+          "file": "\\test\\VerifyPriceFilter.js",
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"Rozetka\"",
+              "fullTitle": "Rozetka \"before each\" hook in \"Rozetka\"",
+              "timedOut": false,
+              "duration": 670,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await new Builder().forBrowser(\"chrome\").build();",
+              "err": {},
+              "uuid": "98ab5f4e-f40c-4abc-820d-0fbcbb95f14c",
+              "parentUUID": "1377a894-a4ce-4e04-a256-6fe3b1ef6cf1",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"Rozetka\"",
+              "fullTitle": "Rozetka \"after each\" hook in \"Rozetka\"",
+              "timedOut": false,
+              "duration": 91,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit()",
+              "err": {},
+              "uuid": "60b80012-abe3-4bde-8eba-b45784050e6a",
+              "parentUUID": "1377a894-a4ce-4e04-a256-6fe3b1ef6cf1",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "should open Rozetka",
+              "fullTitle": "Rozetka should open Rozetka",
+              "timedOut": false,
+              "duration": 20829,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const window = await driver.manage().window();\nawait window.maximize();\nawait driver.get(process.env.URL);\nconst title = await driver.getTitle();\nassert.strictEqual(title, 'Інтернет-магазин ROZETKA™: офіційний сайт найпопулярнішого онлайн-гіпермаркету в Україні');\n// Open category and subcategory.\nawait driver.wait(\n  until.elementsLocated(By.linkText(\"Ноутбуки та комп’ютери\"))\n)\nawait driver.findElement(By.linkText(\"Ноутбуки та комп’ютери\")).click()\nawait driver.wait(until.elementsLocated(By.linkText(\"Ноутбуки\")))\nawait driver.findElement(By.linkText(\"Ноутбуки\")).click()\n// Navigate to the filters section. Apply 2 filters.\nawait driver.wait(until.elementsLocated(By.css('[data-id=\"ASUS\"]')))\nawait driver.sleep(1000)\nawait driver.findElement(By.css('[data-id=\"ASUS\"]')).click()\nawait driver.wait(until.elementsLocated(By.css('[data-id=\"Acer\"]')))\nawait driver.sleep(1000)\nawait driver.findElement(By.css('[data-id=\"Acer\"]')).click()\n// Verify that all the items on the page are sorted correctly by the from and to price filters you entered.\nawait driver.sleep(2000)\nawait driver.findElement(By.css(\".select-css\")).click()\nawait driver.wait(until.elementsLocated(By.css('[value=\"1: cheap\"]')))\nawait driver.sleep(1000)\nawait driver.findElement(By.css('[value=\"1: cheap\"]')).click()\nawait driver.sleep(3000)\nconst prices = await driver.findElements(By.css(\".goods-tile__price-value\"))\nconst priceValues = await Promise.all(\n  prices.map(async (price) => {\n    return String(await price.getText()).replace(/\\D+/g, \"\")\n  })\n)\nconst sortedPriceValues = [...priceValues].sort((a, b) => a - b)\nconsole.log(priceValues)\nconsole.log(sortedPriceValues)\nassert.deepEqual(priceValues, sortedPriceValues)\nawait driver.sleep(5000);",
+              "err": {},
+              "uuid": "e171ac95-bb91-4dda-89d3-e879853f59e9",
+              "parentUUID": "1377a894-a4ce-4e04-a256-6fe3b1ef6cf1",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "e171ac95-bb91-4dda-89d3-e879853f59e9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 20829,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "Report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "Reports",
+        "reportFilename": "Report"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
